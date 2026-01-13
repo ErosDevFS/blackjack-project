@@ -1,5 +1,302 @@
 @import "bootstrap/dist/css/bootstrap.min.css";
 
-body{
-    background: white;
+body {
+    background-color: #8B0000; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
+
+
+
+.table {
+    display: flex;
+    flex-direction: column;
+    padding-left: 70px;
+    padding-right: 70px;
+    background: #7a1c1c;
+    height: 600px;
+    border: 15px solid #1a1a1a;
+    border-radius: 20px;
+    box-shadow: 
+    inset 0 0 15px rgba(0,0,0,0.5), 
+    0 5px 15px rgba(0,0,0,0.8),      
+    0 0 0 5px #333; 
+}
+
+
+.deck {
+    
+    position: relative;
+    width: 110px;
+    height: 150px;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+}
+
+
+.cards{
+    margin-top: 50px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-shadow: 0 6px 12px rgba(0,0,0,.5);
+    border-radius: 10px;
+    width: 110px;
+    height: 150px;
+}
+
+
+.cards.back{
+    background: repeating-linear-gradient(
+    -45deg,
+    #b11226,
+    #b11226 10px,
+    #8b0000 10px,
+    #8b0000 20px
+  );
+  border: 5px solid #f3eded;
+}
+
+.deck .cards:nth-child(1) { transform: translate(0px, 0px); }
+.deck .cards:nth-child(2) { transform: translate(2px, -2px); }
+.deck .cards:nth-child(3) { transform: translate(4px, -4px); }
+.deck .cards:nth-child(4) { transform: translate(6px, -6px); }
+.deck .cards:nth-child(5) { transform: translate(8px, -8px); }
+.deck .cards:nth-child(6) { transform: translate(10px, -10px); }
+.deck .cards:nth-child(7) { transform: translate(12px, -12px); }
+.deck .cards:nth-child(8) { transform: translate(12px, -12px); }
+.deck .cards:nth-child(9) { transform: translate(14px, -14px); }
+.deck .cards:nth-child(10) { transform: translate(16px, -16px); }
+
+@keyframes deal-player {
+  from {
+    transform: translate(0,0) rotate(0deg);
+  }
+  to {
+    transform: translate(0, 250px) rotate(2deg);
+  }
+}
+
+@keyframes deal-player-second {
+  from {
+    transform: translate(0,0) rotate(0deg);
+  }
+  to {
+    transform: translate(0, 240px) rotate(2deg);
+  }
+}
+
+@keyframes deal-dealer {
+  from {
+    transform: translate(0,0) rotate(0deg);
+  }
+  to {
+    transform: translate(-560px, 190px) rotate(-10deg);
+  }
+}
+
+@keyframes deal-dealer-second {
+  from {
+    transform: translate(0,0) rotate(0deg);
+  }
+  to {
+    transform: translate(-560px, 180px) rotate(-8deg);
+  }
+}
+
+@keyframes deal-machine {
+  from {
+    transform: translate(0,0) rotate(0deg);
+  }
+  to {
+    transform: translate(560px, 170px) rotate(10deg);
+  }
+}
+
+@keyframes deal-machine-second {
+  from {
+    transform: translate(0,0) rotate(0deg);
+  }
+  to {
+    transform: translate(560px, 160px) rotate(8deg);
+  }
+}
+
+.cards.deal-player {
+  animation: deal-player .4s ease forwards;
+}
+
+.cards.deal-player-second {
+  animation: deal-player-second .4s ease forwards;
+}
+
+.cards.deal-dealer {
+  animation: deal-dealer .4s ease forwards;
+}
+
+.cards.deal-dealer-second {
+  animation: deal-dealer-second .4s ease forwards;
+}
+
+.cards.deal-machine {
+  animation: deal-machine .4s ease forwards;
+}
+
+.cards.deal-machine-second {
+  animation: deal-machine-second .4s ease forwards;
+}
+
+.start-game{
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    height: 130px;
+    width: 500px;
+    border-radius: 10px;
+    border: 3px black solid;
+    background-color: #800404;
+    margin-top: 200px;
+}
+
+.start-game > h1{
+    color: #e3e3e3;
+}
+
+#startGame{
+  height: 30px;
+  width: 200px;
+  border-radius: 25%;
+  font-weight: 700;
+  box-shadow: 4px 5px 2px 3px #111;
+}
+
+#startGame:hover{
+    background-color: #efff08;
+}
+
+
+.playing{
+    display: flex;
+    justify-content: space-between;
+}
+
+.hand{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hand.dealer{
+    display: none;
+    align-self: flex-start;
+    margin-top: 30px;
+
+}
+.hand.player{
+    display: none;
+    align-self: center;
+    margin-top: 90px;
+}
+
+.you{
+    color: #77ff00;
+}
+
+.hand.machine{
+    display: none;
+    margin: 10px;
+}
+
+.others{
+    color: #ffcab1;
+}
+
+.points{
+    margin-top: 10px;
+    height: 40px;
+    width: 150px;
+    border: 2px solid #111;
+    border-radius: 10px;
+    color: white;
+    font-weight: 500;
+    text-align: center;
+}
+
+
+
+.card {
+  width: 110px;
+  height: 150px;
+  background: white;
+  border-radius: 10px;
+  border: 2px solid #111;
+  position: absolute;
+  box-shadow: 0 4px 8px rgba(0,0,0,.4);
+  font-family: 'Arial', sans-serif;
+}
+
+.card.red {
+  color: #b11226;
+}
+
+.card .black {
+  color: #111;
+}
+
+.card .top {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-size: 14px;
+}
+
+.card .bottom {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  font-size: 14px;
+  transform: rotate(180deg);
+}
+
+.card .center {
+    position: absolute;
+    top: 50%;
+     left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 42px;
+}
+
+.card-empty{
+    background: #7a1c1c;
+    width: 110px;
+    height: 150px;
+    border-radius: 10px;
+    border: 2px solid #111;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0,0,0,.4);
+}
+
+#playerCards .card:nth-child(1) { transform: translate(-10px, -10px); }
+#playerCards .card:nth-child(2) { transform: translate(20px,-10px); }
+#playerCards .card:nth-child(3) { transform: translate(50px,-10px); }
+#playerCards.card:nth-child(4) { transform: translate(60px, -10px); }
+#playerCards .card:nth-child(5) { transform: translate(110px, -10px); }
+
+#dealerCards .card:nth-child(1) { transform: translate(-10px, -10px); }
+#dealerCards .card:nth-child(2) { transform: translate(20px, -10px); }
+#dealerCards .card:nth-child(3) { transform: translate(50px, -10px); }
+#dealerCards.card:nth-child(4) { transform: translate(80px, -10px); }
+#dealerCards .card:nth-child(5) { transform: translate(110px, -10px); }
+
+#machineCards .card:nth-child(1) { transform: translate(-30px, -10px); }
+#machineCards .card:nth-child(2) { transform: translate(0px, -10px); }
+#machineCards .card:nth-child(3) { transform: translate(30px, -10px); }
+#machineCards.card:nth-child(4) { transform: translate(60px, -10px); }
+#machineCards .card:nth-child(5) { transform: translate(90px, -10px); }

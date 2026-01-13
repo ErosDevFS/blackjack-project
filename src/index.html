@@ -1,35 +1,62 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="./assets/img/4geeks.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hello Rigo with Vanilla.js</title>
 
-    <!-- Fontawesome is our recomended library for icons -->
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
-      integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
-      crossorigin="anonymous"
-    />
-  </head>
-  <body>
-    <!-- Write your HTML code here, you can delete everything withing the body tags -->
-    <div class="container-fluid text-center">
-      <h1 class="mt-5">Hello Rigo!</h1>
-      <img src="./assets/img/rigo-baby.jpg" />
-      <p class="alert alert-warning mt-4">
-        If this text is <b>not</b> centered and <b>yellow</b>, you probably have
-        an error
-      </p>
-      <div class="fixed-bottom p-4">
-        Made with ❤️ by
-        <a href="https://www.4geeksacademy.com">4Geeks Academy</a>
-      </div>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="./assets/img/icono-blackjack-definitivo.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Black Jack by ErosDevFS</title>
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+    integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous" />
+</head>
+
+<body>
+
+  <div class="table">
+
+
+    <div class="deck">
+      <div class="cards back"></div>
+      <div class="cards back"></div>
+      <div class="cards back"></div>
+      <div class="cards back"></div>
+      <div class="cards back"></div>
+      <div class="cards back"></div>
+      <div class="cards back"></div>
+      <div class="cards back"></div>
+      <div class="cards back"></div>
+      <div class="cards back"></div>
     </div>
 
-    <!-- Do not delete this script tag, this is what connects your HTML with the Javascript code -->
-    <script type="module" src="/app.js"></script>
-  </body>
+    <div class="start-game">
+      <h1>Ready?</h1>
+      <button id="startGame" >Start Game</button>
+    </div>
+    
+    <div class="playing">
+      <div class="hand dealer">
+      <h3 class="others">Dealer</h3>
+      <div class="card-empty" id="dealerCards"></div>
+      <p class="points">Points: <span id="pointsDealer">0</span></p>
+    </div>
+
+      <div class="hand player">
+        <h3 class="you">You</h3>
+        <div class="card-empty" id="playerCards"></div>
+        <p class="points">Points: <span id="pointsPlayer">0</span></p>
+      </div>
+
+      <div class="hand machine">
+        <h3 class="others">Machine</h3>
+        <div class="card-empty" id="machineCards"></div>
+        <p class="points">Points: <span id="pointsMachine">0</span></p>
+      </div>
+    </div>
+    
+
+  </div>
+  <script type="module" src="/app.js"></script>
+</body>
+
 </html>
