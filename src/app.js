@@ -78,12 +78,15 @@ function gameStarted() {
 
   setTimeout(()=> {
     let playerPoints = Number(document.querySelector('#pointsPlayer').textContent);
+    //if(playerPoints === 21) return winVerificator();
     if (playerPoints < 21) {
     document.querySelector("#btnHit").style.display = "inline";
     document.querySelector("#btnStand").style.display = "inline";
     }
   }, 9000)
 
+
+  
 }
 
 
@@ -174,22 +177,35 @@ function oneMoreCard() {
     sumPoints('dealer', randomCard)
   }
   //"DEALER" debe parar de jugar solo si "PLAYER" presiono "STAND" y los puntos de "PLAYER" no son mayores o iguales a los de "DEALER".
+ 
 }
 
 function noMoreCards() {
 
 }
 
-function winVerificator(player){
+function winVerificator(){
   const machinePoints = Number(document.querySelector("#pointsMachine").textContent);
   const dealerPoints = Number(document.querySelector("#pointsDealer").textContent);
   const playerPoints = Number(document.querySelector("#pointsPlayer").textContent);
 
-  let winner = 0;
+  if((playerPoints < 22 && playerPoints > dealerPoints && playerPoints > machinePoints) || (machinePoints > 21 && playerPoints < 22) || (dealerPoints > 21 && playerPoints < 22 )) {
+    document.querySelector('.you').textContent = "You 👑 WON!";
+  }
+
+  //Alternativa, no colocar si los otros "Jugadores" ganaron, simplemente si perdiste abrir un modal, donde puedas elegir si volver a jugar nuevamente o regresar al menu de inicio.
+
+  if((dealerPoints < 22 && dealerPoints > playerPoints && dealerPoints > machinePoints) || (machinePoints > 21 && dealerPoints < 22) || (playerPoints > 21 && dealerPoints < 22 )) {
+    document.querySelector('.dealer').textContent = "Dealer 👑 WON!";
+  }
+
+  if((machinePoints < 22 && machinePoints > dealerPoints && machinePoints > playerPoints) || (playerPoints > 21 && machinePoints < 22) || (dealerPoints > 21 && machinePoints < 22 )) {
+    document.querySelector('.machine').textContent = "Machine 👑 WON!";
+  }
   //Siguientes condicionales, debo verificar lo siguiente:
   //Alguien se paso de 21 puntos? Si es asi, perdio, si no, continue
   //Hay mas de 1 persona con 21 puntos? si es asi, empate, si no continue
-  
+  return;
 
 }
 
