@@ -1,8 +1,13 @@
 import "bootstrap";
 import "./style.css";
 
+
 const startGame = document.querySelector('#startGame');
+const btnHit = document.querySelector('#btnHit');
+const btnStand = document.querySelector('#btnStand');
 startGame.addEventListener('click', gameStarted)
+btnHit.addEventListener('click', oneMoreCard)
+btnStand.addEventListener('click', noMoreCards)
 
 function welcomeMessage() {
   return alert("Welcome!!, Let's get fun playing this simple Black Jack game by ErosDevFS. Press 'OK' to start. Have fun!")
@@ -19,30 +24,30 @@ function gameStarted() {
   player.style.display = "flex"
   machine.style.display = "flex"
 
-  setTimeout(()=> {
+  setTimeout(() => {
     cards[0].classList.add("deal-player")
   }, 2000)
-  setTimeout(()=> {
+  setTimeout(() => {
     cards[3].classList.add("deal-player-second")
   }, 6000)
   setTimeout(() => {
     let randomCard = dealCard(mixDeck(createDeck()))
     playerCards.appendChild(renderCard(randomCard));
     document.querySelector("#pointsPlayer").textContent = randomCard.points
-    
+
   }, 5000);
   setTimeout(() => {
     let randomCard = dealCard(mixDeck(createDeck()))
     playerCards.appendChild(renderCard(randomCard));
     sumPoints('player', randomCard)
   }, 6000);
-  
-  setTimeout(()=> {
+
+  setTimeout(() => {
     cards[1].classList.add("deal-dealer")
   }, 3000)
-  setTimeout(()=> {
+  setTimeout(() => {
     cards[4].classList.add("deal-dealer-second")
-  }, 7000)  
+  }, 7000)
   setTimeout(() => {
     let randomCard = dealCard(mixDeck(createDeck()))
     dealerCards.appendChild(renderCard(randomCard));
@@ -54,12 +59,12 @@ function gameStarted() {
     sumPoints('dealer', randomCard)
   }, 7000);
 
-  setTimeout(()=> {
+  setTimeout(() => {
     cards[2].classList.add("deal-machine")
   }, 4000)
-  setTimeout(()=> {
+  setTimeout(() => {
     cards[5].classList.add("deal-machine-second")
-  }, 8000) 
+  }, 8000)
   setTimeout(() => {
     let randomCard = dealCard(mixDeck(createDeck()))
     machineCards.appendChild(renderCard(randomCard));
@@ -70,9 +75,19 @@ function gameStarted() {
     machineCards.appendChild(renderCard(randomCard));
     sumPoints('machine', randomCard)
   }, 8000);
+
+  setTimeout(()=> {
+    let playerPoints = Number(document.querySelector('#pointsPlayer').textContent);
+    if (playerPoints < 21) {
+    document.querySelector("#btnHit").style.display = "inline";
+    document.querySelector("#btnStand").style.display = "inline";
+    }
+  }, 9000)
+
 }
 
-function createDeck () {
+
+function createDeck() {
   const suits = ["♠", "♥", "♦", "♣"]
   const values = [
     { value: "A", points: 11 },
@@ -92,23 +107,21 @@ function createDeck () {
 
   const deck = []
 
-  for(let suit of suits){
-    for(let val of values){
-      deck.push({suit, ...val})
+  for (let suit of suits) {
+    for (let val of values) {
+      deck.push({ suit, ...val })
     }
   }
-  return deck 
+  return deck
 }
 
 function mixDeck(deck) {
   return (deck.sort(() => Math.random() - 0.5))
 }
 
-function dealCard(deck){
+function dealCard(deck) {
   return deck.pop()
 }
-
-
 
 function renderCard(card) {
   const div = document.createElement("div");
@@ -124,28 +137,60 @@ function renderCard(card) {
   return div;
 }
 
-
-
-function sumPoints(player, card){
-  if(player === 'player') player = '#pointsPlayer';
-  if(player === 'dealer') player = "#pointsDealer";
-  if(player === 'machine') player = "#pointsMachine";
+function sumPoints(player, card) {
+  if (player === 'player') player = '#pointsPlayer';
+  if (player === 'dealer') player = "#pointsDealer";
+  if (player === 'machine') player = "#pointsMachine";
   let actualPoints = Number(document.querySelector(player).textContent);
   actualPoints += card.points;
   return document.querySelector(player).textContent = String(actualPoints);
-  
+
 }
 
-function oneMoreCard(){
+
+function oneMoreCard() {
+  const machinePoints = Number(document.querySelector("#pointsMachine").textContent);
+  const dealerPoints = Number(document.querySelector("#pointsDealer").textContent);
+  const playerPoints = Number(document.querySelector("#pointsPlayer").textContent);
   //Evaluar si los demas pueden pedir una carta mas o no.
-  //Si "MACHINE" tiene 18 puntos, elige "STAND"
+  if(playerPoints >= 21){
+    document.querySelector("#btnHit").style.display = "none"
+    document.querySelector("#btnStand").style.display = "none" 
+    return;
+  }
+  let randomPlayerCard = dealCard(mixDeck(createDeck()));
+  playerCards.appendChild(renderCard(randomPlayerCard));
+  sumPoints('player', randomPlayerCard)
+  //DONE: Si "MACHINE" tiene 18 puntos, elige "STAND"
+  if (machinePoints < 18) {
+    let randomCard = dealCard(mixDeck(createDeck()));
+    machineCards.appendChild(renderCard(randomCard));
+    sumPoints('machine', randomCard)
+  }
   //Si el "DEALER" tiene menos de 21 puntos, && "PLAYER" tiene 21 debe seguir jugando || Si "DEALER" tiene menos puntos que "PLAYER" debe seguir jugando "DEALER".
+  if ((dealerPoints < 21 && playerPoints === 21) || (dealerPoints <= playerPoints && dealerPoints < 22)) {
+    let randomCard = dealCard(mixDeck(createDeck()));
+    dealerCards.appendChild(renderCard(randomCard));
+    sumPoints('dealer', randomCard)
+  }
   //"DEALER" debe parar de jugar solo si "PLAYER" presiono "STAND" y los puntos de "PLAYER" no son mayores o iguales a los de "DEALER".
+}
+
+function noMoreCards() {
 
 }
 
-function noMoreCards(){
+function winVerificator(player){
+  const machinePoints = Number(document.querySelector("#pointsMachine").textContent);
+  const dealerPoints = Number(document.querySelector("#pointsDealer").textContent);
+  const playerPoints = Number(document.querySelector("#pointsPlayer").textContent);
+
+  let winner = 0;
+  //Siguientes condicionales, debo verificar lo siguiente:
+  //Alguien se paso de 21 puntos? Si es asi, perdio, si no, continue
+  //Hay mas de 1 persona con 21 puntos? si es asi, empate, si no continue
   
+
 }
 
 //window.addEventListener("DOMContentLoaded", welcomeMessage)

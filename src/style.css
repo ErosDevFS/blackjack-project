@@ -286,17 +286,42 @@ body {
 #playerCards .card:nth-child(1) { transform: translate(-10px, -10px); }
 #playerCards .card:nth-child(2) { transform: translate(20px,-10px); }
 #playerCards .card:nth-child(3) { transform: translate(50px,-10px); }
-#playerCards.card:nth-child(4) { transform: translate(60px, -10px); }
+#playerCards .card:nth-child(4) { transform: translate(80px, -10px); }
 #playerCards .card:nth-child(5) { transform: translate(110px, -10px); }
 
 #dealerCards .card:nth-child(1) { transform: translate(-10px, -10px); }
 #dealerCards .card:nth-child(2) { transform: translate(20px, -10px); }
 #dealerCards .card:nth-child(3) { transform: translate(50px, -10px); }
-#dealerCards.card:nth-child(4) { transform: translate(80px, -10px); }
+#dealerCards .card:nth-child(4) { transform: translate(80px, -10px); }
 #dealerCards .card:nth-child(5) { transform: translate(110px, -10px); }
 
 #machineCards .card:nth-child(1) { transform: translate(-30px, -10px); }
 #machineCards .card:nth-child(2) { transform: translate(0px, -10px); }
 #machineCards .card:nth-child(3) { transform: translate(30px, -10px); }
-#machineCards.card:nth-child(4) { transform: translate(60px, -10px); }
+#machineCards .card:nth-child(4) { transform: translate(60px, -10px); }
 #machineCards .card:nth-child(5) { transform: translate(90px, -10px); }
+
+#btnHit{
+  display: none;
+  font-weight: 700;
+  background-color: #c73939;
+  border-radius: 5px;
+  box-shadow: 0.2px 0.2px 0.2px 0.2px #111;
+}
+
+#btnHit:hover{
+  background-color: #c68a8a;
+}
+
+
+#btnStand {
+  display: none;
+  font-weight: 700;
+  background-color: #c73939;
+  border-radius: 5px;
+  box-shadow: 0.2px 0.2px 0.2px 0.2px #111;
+}
+
+#btnStand:hover{
+  background-color: #c68a8a;
+}
