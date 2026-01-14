@@ -161,9 +161,6 @@ function oneMoreCard() {
     document.querySelector("#btnStand").style.display = "none" 
     return;
   }
-  let randomPlayerCard = dealCard(mixDeck(createDeck()));
-  playerCards.appendChild(renderCard(randomPlayerCard));
-  sumPoints('player', randomPlayerCard)
   //DONE: Si "MACHINE" tiene 18 puntos, elige "STAND"
   if (machinePoints < 18) {
     let randomCard = dealCard(mixDeck(createDeck()));
@@ -171,17 +168,38 @@ function oneMoreCard() {
     sumPoints('machine', randomCard)
   }
   //Si el "DEALER" tiene menos de 21 puntos, && "PLAYER" tiene 21 debe seguir jugando || Si "DEALER" tiene menos puntos que "PLAYER" debe seguir jugando "DEALER".
-  if ((dealerPoints < 21 && playerPoints === 21) || (dealerPoints <= playerPoints && dealerPoints < 22)) {
+  if ((dealerPoints < 22 && playerPoints === 21) || (dealerPoints <= playerPoints && dealerPoints < 22)) {
     let randomCard = dealCard(mixDeck(createDeck()));
     dealerCards.appendChild(renderCard(randomCard));
     sumPoints('dealer', randomCard)
   }
+
+  let randomPlayerCard = dealCard(mixDeck(createDeck()));
+  playerCards.appendChild(renderCard(randomPlayerCard));
+  sumPoints('player', randomPlayerCard)
   //"DEALER" debe parar de jugar solo si "PLAYER" presiono "STAND" y los puntos de "PLAYER" no son mayores o iguales a los de "DEALER".
  
 }
 
 function noMoreCards() {
+  const machinePoints = Number(document.querySelector("#pointsMachine").textContent);
+  const dealerPoints = Number(document.querySelector("#pointsDealer").textContent);
+  const playerPoints = Number(document.querySelector("#pointsPlayer").textContent);
+  
+  if ((dealerPoints < 22 && playerPoints === 21) || (dealerPoints <= playerPoints && dealerPoints < 22)) {
+    let randomCard = dealCard(mixDeck(createDeck()));
+    dealerCards.appendChild(renderCard(randomCard));
+    sumPoints('dealer', randomCard)
+  }
 
+  if (machinePoints < 18) {
+    let randomCard = dealCard(mixDeck(createDeck()));
+    machineCards.appendChild(renderCard(randomCard));
+    sumPoints('machine', randomCard)
+  }
+
+  document.querySelector("#btnHit").style.display = "none"
+  document.querySelector("#btnStand").style.display = "none" 
 }
 
 function winVerificator(){

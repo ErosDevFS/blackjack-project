@@ -6,7 +6,8 @@
   <link rel="icon" href="./assets/img/icono-blackjack-definitivo.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Blackjack by ErosDevFS</title>
-
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
     integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous" />
 </head>
@@ -31,15 +32,15 @@
 
     <div class="start-game">
       <h1>Ready?</h1>
-      <button id="startGame" >Start Game</button>
+      <button id="startGame">Start Game</button>
     </div>
-    
+
     <div class="playing">
       <div class="hand dealer">
-      <h3 class="others" id="dealer">Dealer</h3>
-      <div class="card-empty" id="dealerCards"></div>
-      <p class="points">Points: <span id="pointsDealer">0</span></p>
-    </div>
+        <h3 class="others" id="dealer">Dealer</h3>
+        <div class="card-empty" id="dealerCards"></div>
+        <p class="points">Points: <span id="pointsDealer">0</span></p>
+      </div>
 
       <div class="hand player">
         <h3 class="you" id="you">You</h3>
@@ -57,10 +58,29 @@
         <p class="points">Points: <span id="pointsMachine">0</span></p>
       </div>
     </div>
-    
+
 
   </div>
+
+
+  <div class="modal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title mx-auto">You Lost! 😞</h5>
+        </div>
+    
+        <div class="modal-footer mx-auto">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Main Menu</button>
+          <button type="button" class="btn btn-primary">Restart Game</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <script type="module" src="/app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
 </body>
 
 </html>
