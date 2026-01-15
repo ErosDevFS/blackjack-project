@@ -1,5 +1,8 @@
 import "bootstrap";
 import "./style.css";
+import Swal from 'sweetalert2';
+
+
 
 
 const startGame = document.querySelector('#startGame');
@@ -10,7 +13,23 @@ btnHit.addEventListener('click', oneMoreCard)
 btnStand.addEventListener('click', noMoreCards)
 
 function welcomeMessage() {
-  return alert("Welcome!!, Let's get fun playing this simple Black Jack game by ErosDevFS. Press 'OK' to start. Have fun!")
+  Swal.fire({
+    title:"Welcome",
+    imageUrl: "https://www.shutterstock.com/image-vector/cartoon-ace-king-queen-jack-600nw-2455635703.jpg",
+    imageWidth: 400,
+    imageHeight: 200,
+    confirmButtonColor: "#121212",
+    confirmButtonText: "LETS BEGIN",
+    padding: "0.5em",
+    color: "#f8f9fa",
+    background: "linear-gradient(135deg, #5a0f14 0%, #7a1a1f 50%, #5a0f14 100%)",
+    backdrop: `
+    #000000
+    url("https://images.squarespace-cdn.com/content/v1/6168c17121323e3baa39fcc1/1634264647890-E4IIVFDN9ZNX7UB92IE5/blackjack.gif")
+    center top
+    no-repeat
+  `
+  });
 }
 
 function gameStarted() {
@@ -76,17 +95,19 @@ function gameStarted() {
     sumPoints('machine', randomCard)
   }, 8000);
 
-  setTimeout(()=> {
+  setTimeout(() => {
     let playerPoints = Number(document.querySelector('#pointsPlayer').textContent);
-    //if(playerPoints === 21) return winVerificator();
+    if(playerPoints > 21) setTimeout(()=> {
+      resultVerificator
+    }, 10000);
     if (playerPoints < 21) {
-    document.querySelector("#btnHit").style.display = "inline";
-    document.querySelector("#btnStand").style.display = "inline";
+      document.querySelector("#btnHit").style.display = "inline";
+      document.querySelector("#btnStand").style.display = "inline";
     }
   }, 9000)
 
 
-  
+
 }
 
 
@@ -155,19 +176,16 @@ function oneMoreCard() {
   const machinePoints = Number(document.querySelector("#pointsMachine").textContent);
   const dealerPoints = Number(document.querySelector("#pointsDealer").textContent);
   const playerPoints = Number(document.querySelector("#pointsPlayer").textContent);
-  //Evaluar si los demas pueden pedir una carta mas o no.
-  if(playerPoints >= 21){
-    document.querySelector("#btnHit").style.display = "none"
-    document.querySelector("#btnStand").style.display = "none" 
-    return;
+
+  if (playerPoints >= 21) {
+
+    return resultVerificator()
   }
-  //DONE: Si "MACHINE" tiene 18 puntos, elige "STAND"
   if (machinePoints < 18) {
     let randomCard = dealCard(mixDeck(createDeck()));
     machineCards.appendChild(renderCard(randomCard));
     sumPoints('machine', randomCard)
   }
-  //Si el "DEALER" tiene menos de 21 puntos, && "PLAYER" tiene 21 debe seguir jugando || Si "DEALER" tiene menos puntos que "PLAYER" debe seguir jugando "DEALER".
   if ((dealerPoints < 22 && playerPoints === 21) || (dealerPoints <= playerPoints && dealerPoints < 22)) {
     let randomCard = dealCard(mixDeck(createDeck()));
     dealerCards.appendChild(renderCard(randomCard));
@@ -177,15 +195,15 @@ function oneMoreCard() {
   let randomPlayerCard = dealCard(mixDeck(createDeck()));
   playerCards.appendChild(renderCard(randomPlayerCard));
   sumPoints('player', randomPlayerCard)
-  //"DEALER" debe parar de jugar solo si "PLAYER" presiono "STAND" y los puntos de "PLAYER" no son mayores o iguales a los de "DEALER".
- 
+  return resultVerificator();
+
 }
 
 function noMoreCards() {
   const machinePoints = Number(document.querySelector("#pointsMachine").textContent);
   const dealerPoints = Number(document.querySelector("#pointsDealer").textContent);
   const playerPoints = Number(document.querySelector("#pointsPlayer").textContent);
-  
+
   if ((dealerPoints < 22 && playerPoints === 21) || (dealerPoints <= playerPoints && dealerPoints < 22)) {
     let randomCard = dealCard(mixDeck(createDeck()));
     dealerCards.appendChild(renderCard(randomCard));
@@ -199,32 +217,72 @@ function noMoreCards() {
   }
 
   document.querySelector("#btnHit").style.display = "none"
-  document.querySelector("#btnStand").style.display = "none" 
+  document.querySelector("#btnStand").style.display = "none"
+  return resultVerificator()
 }
 
-function winVerificator(){
+function resultVerificator() {
   const machinePoints = Number(document.querySelector("#pointsMachine").textContent);
   const dealerPoints = Number(document.querySelector("#pointsDealer").textContent);
   const playerPoints = Number(document.querySelector("#pointsPlayer").textContent);
 
-  if((playerPoints < 22 && playerPoints > dealerPoints && playerPoints > machinePoints) || (machinePoints > 21 && playerPoints < 22) || (dealerPoints > 21 && playerPoints < 22 )) {
-    document.querySelector('.you').textContent = "You 👑 WON!";
+  if ((playerPoints < 22 && playerPoints > dealerPoints && playerPoints > machinePoints) || (machinePoints > 21 && playerPoints < 22 && dealerPoints > 21 && playerPoints < 22)) {
+    document.querySelector("#btnHit").style.display = "none"
+    document.querySelector("#btnStand").style.display = "none"
+    return winModal();
   }
 
-  //Alternativa, no colocar si los otros "Jugadores" ganaron, simplemente si perdiste abrir un modal, donde puedas elegir si volver a jugar nuevamente o regresar al menu de inicio.
-
-  if((dealerPoints < 22 && dealerPoints > playerPoints && dealerPoints > machinePoints) || (machinePoints > 21 && dealerPoints < 22) || (playerPoints > 21 && dealerPoints < 22 )) {
-    document.querySelector('.dealer').textContent = "Dealer 👑 WON!";
+  if (playerPoints > 21) {
+    document.querySelector("#btnHit").style.display = "none"
+    document.querySelector("#btnStand").style.display = "none"
+    return loseModal();
   }
-
-  if((machinePoints < 22 && machinePoints > dealerPoints && machinePoints > playerPoints) || (playerPoints > 21 && machinePoints < 22) || (dealerPoints > 21 && machinePoints < 22 )) {
-    document.querySelector('.machine').textContent = "Machine 👑 WON!";
-  }
-  //Siguientes condicionales, debo verificar lo siguiente:
-  //Alguien se paso de 21 puntos? Si es asi, perdio, si no, continue
-  //Hay mas de 1 persona con 21 puntos? si es asi, empate, si no continue
   return;
 
 }
 
-//window.addEventListener("DOMContentLoaded", welcomeMessage)
+function winModal() {
+  const modalWhenYouWin = Swal.mixin({
+    customClass: {
+      confirmButton: "btn btn-warning"
+    },
+    buttonsStyling: false
+  });
+  modalWhenYouWin.fire({
+    title: "YOU WIN!",
+    text: "Press Go Back to restart",
+    color: "#ffffff",
+    background: "radial-gradient(circle at top, rgba(255,255,255,0.12), transparent 55%),  linear-gradient(135deg, #1f8f4a, #0f5e3a)",
+    showCancelButton: false,
+    confirmButtonText: "Go Back",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      location.reload();
+    }
+  });
+
+}
+
+function loseModal() {
+  const modalWhenYouLose = Swal.mixin({
+    customClass: {
+      confirmButton: "btn btn-warning"
+    },
+    buttonsStyling: false
+  });
+  modalWhenYouLose.fire({
+    title: "YOU LOSE",
+    text: "Press Go Back to restart",
+    color: "#ffffff",
+    background: "radial-gradient(circle at center, rgba(0,0,0,0.25), transparent 60%), linear-gradient(135deg, #7a1111, #3d0707)",
+    showCancelButton: false,
+    confirmButtonText: "Go Back",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      location.reload();
+    }
+  });
+}
+
+
+window.addEventListener("DOMContentLoaded", welcomeMessage)

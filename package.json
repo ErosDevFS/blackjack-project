@@ -13,7 +13,8 @@
   },
   "dependencies": {
     "bootstrap": "^5.1.1",
-    "jquery": "^3.7.1"
+    "jquery": "^3.7.1",
+    "sweetalert2": "^11.26.17"
   },
   "engines": {
     "node": ">=20.0.0"
