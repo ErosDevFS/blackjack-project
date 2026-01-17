@@ -97,9 +97,7 @@ function gameStarted() {
 
   setTimeout(() => {
     let playerPoints = Number(document.querySelector('#pointsPlayer').textContent);
-    if(playerPoints > 21) setTimeout(()=> {
-      resultVerificator
-    }, 10000);
+    if(playerPoints == 21) return resultVerificator();
     if (playerPoints < 21) {
       document.querySelector("#btnHit").style.display = "inline";
       document.querySelector("#btnStand").style.display = "inline";
@@ -172,15 +170,14 @@ function sumPoints(player, card) {
 }
 
 
+
+//EN ESTA FUNCION DEBO ARREGLAR QUE CUANDO PRESIONE "HIT" Y LA CARTA SEA MAYOR A 21 DIRECTAMENTE APAREZCA UN LOSE MODAL, SIN NECESIDAD DE PRESIONARLO NUEVAMENTE 
 function oneMoreCard() {
   const machinePoints = Number(document.querySelector("#pointsMachine").textContent);
   const dealerPoints = Number(document.querySelector("#pointsDealer").textContent);
   const playerPoints = Number(document.querySelector("#pointsPlayer").textContent);
 
-  if (playerPoints >= 21) {
-
-    return resultVerificator()
-  }
+ 
   if (machinePoints < 18) {
     let randomCard = dealCard(mixDeck(createDeck()));
     machineCards.appendChild(renderCard(randomCard));
@@ -195,8 +192,6 @@ function oneMoreCard() {
   let randomPlayerCard = dealCard(mixDeck(createDeck()));
   playerCards.appendChild(renderCard(randomPlayerCard));
   sumPoints('player', randomPlayerCard)
-  return resultVerificator();
-
 }
 
 function noMoreCards() {
@@ -208,6 +203,8 @@ function noMoreCards() {
     let randomCard = dealCard(mixDeck(createDeck()));
     dealerCards.appendChild(renderCard(randomCard));
     sumPoints('dealer', randomCard)
+    setTimeout(()=>{
+      return resultVerificator()},3000)
   }
 
   if (machinePoints < 18) {
@@ -218,7 +215,7 @@ function noMoreCards() {
 
   document.querySelector("#btnHit").style.display = "none"
   document.querySelector("#btnStand").style.display = "none"
-  return resultVerificator()
+  return resultVerificator();
 }
 
 function resultVerificator() {
@@ -226,18 +223,29 @@ function resultVerificator() {
   const dealerPoints = Number(document.querySelector("#pointsDealer").textContent);
   const playerPoints = Number(document.querySelector("#pointsPlayer").textContent);
 
-  if ((playerPoints < 22 && playerPoints > dealerPoints && playerPoints > machinePoints) || (machinePoints > 21 && playerPoints < 22 && dealerPoints > 21 && playerPoints < 22)) {
-    document.querySelector("#btnHit").style.display = "none"
-    document.querySelector("#btnStand").style.display = "none"
-    return winModal();
-  }
-
   if (playerPoints > 21) {
     document.querySelector("#btnHit").style.display = "none"
     document.querySelector("#btnStand").style.display = "none"
     return loseModal();
   }
-  return;
+
+  if (((playerPoints > dealerPoints && dealerPoints > 21) && (playerPoints > machinePoints && machinePoints > 21)) || (machinePoints > 21 && playerPoints < 22 && dealerPoints > 21 && playerPoints < 22)) {
+    document.querySelector("#btnHit").style.display = "none"
+    document.querySelector("#btnStand").style.display = "none"
+    return winModal();
+  }
+
+  if(playerPoints == dealerPoints || playerPoints == machinePoints){
+    document.querySelector("#btnHit").style.display = "none"
+    document.querySelector("#btnStand").style.display = "none"
+    return drawModal();
+  }
+
+  if((playerPoints < dealerPoints && dealerPoints <= 21) || (playerPoints < machinePoints && machinePoints <= 21)){
+    document.querySelector("#btnHit").style.display = "none"
+    document.querySelector("#btnStand").style.display = "none"
+    return loseModal();
+  }
 
 }
 
@@ -284,5 +292,27 @@ function loseModal() {
   });
 }
 
+
+function drawModal() {
+  const modalWhenDraw = Swal.mixin({
+    customClass: {
+      confirmButton: "btn btn-warning"
+    },
+    buttonsStyling: false
+  });
+  modalWhenYouWin.fire({
+    title: "DRAW",
+    text: "Press Go Back to restart",
+    color: "#eaeaea",
+    background: "linear-gradient(135deg, #2b2f2e, #3a4a45)",
+    showCancelButton: false,
+    confirmButtonText: "Go Back",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      location.reload();
+    }
+  });
+
+}
 
 window.addEventListener("DOMContentLoaded", welcomeMessage)
